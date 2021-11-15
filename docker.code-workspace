@@ -1,0 +1,11 @@
+{
+    "folders": [{
+        "path": "."
+    }],
+    "settings":
+    {
+        "files.encoding": "utf8",
+        "files.trimTrailingWhitespace": true,
+        "editor.rulers": [80, 100]
+    }
+}

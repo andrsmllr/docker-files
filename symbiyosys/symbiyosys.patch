@@ -1,0 +1,12 @@
+diff --git a/Makefile b/Makefile
+index 3b58d87..a8f776d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,6 @@
+ 
+ DESTDIR =
+-PREFIX = /usr/local
++PREFIX ?= /usr/local
+ PROGRAM_PREFIX =
+ 
+ # On Windows, manually setting absolute path to Python binary may be required
