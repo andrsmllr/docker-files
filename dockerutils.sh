@@ -32,6 +32,6 @@ function docker_push_tag()
     DOCKER_TAG=${2:-"latest"}
     DOCKER_REGISTRY=${3:-"docker.io"}
 
-    docker login ${DOCKER_REGISTRY} -u user -p password
+    docker login ${DOCKER_REGISTRY}
     docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
 }
