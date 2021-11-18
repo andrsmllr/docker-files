@@ -16,8 +16,8 @@ ENV LANG=en_US.UTF-8
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone \
     /usr/sbin/locale-gen ${LANG} \
     && apt update -qq \
-    && apt dist-upgrade -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+    && apt dist-upgrade -q -y \
+    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
         dumb-init \
         gosu \
         nano \

@@ -63,6 +63,6 @@ RUN apt update -qq \
 ENV TERM=xterm-256color
 WORKDIR /work
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh && set -eux; gosu nobody true
+RUN chmod a+x /entrypoint.sh && set -eux
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash", "-c", "magic"]
