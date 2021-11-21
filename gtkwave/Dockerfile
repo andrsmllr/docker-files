@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/gtkwave'
 ARG SOURCE_REPO='https://github.com/gtkwave/gtkwave'
 
-LABEL description 'Common base image for other EDA images'
+LABEL description 'GTKWave waveform viewer'
 
 # git and ca-certificates is needed to clone from https://github.com
 RUN apt update -qq \
