@@ -67,4 +67,4 @@ WORKDIR /work
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh && set -eux
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "klayout"]
+CMD ["/bin/bash", "-c", "gtkwave"]
