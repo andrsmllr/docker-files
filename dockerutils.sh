@@ -19,7 +19,6 @@ function docker_build()
         --target ${DOCKER_BUILD_TARGET} \
         --build-arg BUILD_VERSION=${BUILD_VERSION} \
         --compress \
-        --squash \
         --no-cache \
         -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
         $(pwd)
