@@ -9,8 +9,9 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/bsc'
 ARG SOURCE_REPO='https://github.com/B-Lang-org/bsc'
 
-LABEL description 'BlueSpec compiler (BSC)'
+LABEL description 'BlueSpec compiler (BSC) (development/build)'
 
+# Install build dependencies.
 # git and ca-certificates is needed to clone from https://github.com
 # The texlive packages and asciidoctor are needed to build the BlueSpec documentation.
 RUN apt update -qq \
@@ -58,6 +59,8 @@ RUN cd ${SOURCE_PATH} \
 
 ################################################################################
 FROM ${BASE_IMAGE}:${BASE_TAG} AS bluespec-compiler-app
+
+LABEL description 'BlueSpec compiler (BSC) (application/runtime)'
 
 ARG INSTALL_PATH
 

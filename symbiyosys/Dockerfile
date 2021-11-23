@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/symbiyosys'
 ARG SOURCE_REPO='https://github.com/yosyshq/symbiyosys'
 
-LABEL description "SymbiYosys open source formal verification suite"
+LABEL description "SymbiYosys open source formal verification suite (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -131,6 +131,8 @@ RUN ./contrib/setup-btor2tools.sh \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS symbiyosys-app
 
 ARG INSTALL_PATH
+
+LABEL description "SymbiYosys open source formal verification suite (application/runtime)"
 
 # Copy installation files from dev image.
 COPY --from=symbiyosys-dev ${INSTALL_PATH} ${INSTALL_PATH}

@@ -11,7 +11,7 @@ ARG WITH_SYSTEMC
 ARG SOURCE_PATH='/usr/src/verilator'
 ARG SOURCE_REPO='https://github.com/verilator/verilator'
 
-LABEL description "Verilator Verilog simulator"
+LABEL description "Verilator Verilog simulator (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -62,6 +62,8 @@ FROM ${BASE_IMAGE}:${BASE_TAG} AS verilator-app
 ARG INSTALL_PATH
 ARG WITH_SYSTEMC
 ENV VERILATOR_ROOT ${INSTALL_PATH}
+
+LABEL description "Verilator Verilog simulator (application/runtime)"
 
 # Copy installation files from builder.
 COPY --from=verilator-dev ${INSTALL_PATH} ${INSTALL_PATH}

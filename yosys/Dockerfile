@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/yosys'
 ARG SOURCE_REPO='https://github.com/yosyshq/yosys'
 
-LABEL description "Yosys open synthesis suite"
+LABEL description "Yosys open synthesis suite (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -51,6 +51,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS yosys-app
 
 ARG INSTALL_PATH
+
+LABEL description "Yosys open synthesis suite (application/runtime)"
 
 # Copy installation files from dev image.
 COPY --from=yosys-dev ${INSTALL_PATH} ${INSTALL_PATH}

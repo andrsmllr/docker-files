@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/iverilog'
 ARG SOURCE_REPO='https://github.com/steveicarus/iverilog'
 
-LABEL description 'Common base image for other EDA images'
+LABEL description 'Icarus Verilog simulator (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
 RUN apt update -qq \
@@ -39,6 +39,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS iverilog-app
 
 ARG INSTALL_PATH
+
+LABEL description 'Icarus Verilog simulator (application/runtime)'
 
 # Copy installation files from dev image.
 COPY --from=iverilog-dev ${INSTALL_PATH} ${INSTALL_PATH}

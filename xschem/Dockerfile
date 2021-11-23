@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/xschem'
 ARG SOURCE_REPO='https://github.com/StefanSchippers/xschem'
 
-LABEL description "Xschem schematic editor"
+LABEL description "Xschem schematic editor (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -49,6 +49,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS xschem-app
 
 ARG INSTALL_PATH
+
+LABEL description "Xschem schematic editor (application/runtime)"
 
 # Copy installation files from dev image.
 COPY --from=xschem-dev ${INSTALL_PATH} ${INSTALL_PATH}

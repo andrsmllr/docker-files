@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/gtkwave'
 ARG SOURCE_REPO='https://github.com/gtkwave/gtkwave'
 
-LABEL description 'GTKWave waveform viewer'
+LABEL description 'GTKWave waveform viewer (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
 RUN apt update -qq \
@@ -47,6 +47,8 @@ RUN cd ${SOURCE_PATH}/gtkwave3-gtk3 \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS gtkwave-app
 
 ARG INSTALL_PATH
+
+LABEL description 'GTKWave waveform viewer (application/runtime)'
 
 # Copy installation files from dev image.
 COPY --from=gtkwave-dev ${INSTALL_PATH} ${INSTALL_PATH}

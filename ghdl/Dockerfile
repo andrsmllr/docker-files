@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/ghdl'
 ARG SOURCE_REPO='https://github.com/ghdl/ghdl'
 
-LABEL description 'GHDL open source VHDL simulator'
+LABEL description 'GHDL open source VHDL simulator (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
 RUN apt update -qq \
@@ -38,6 +38,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS ghdl-app
 
 ARG INSTALL_PATH
+
+LABEL description 'GHDL open source VHDL simulator (application/runtime)'
 
 # Copy installation files from dev image.
 COPY --from=ghdl-dev ${INSTALL_PATH} ${INSTALL_PATH}

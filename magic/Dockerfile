@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/magic'
 ARG SOURCE_REPO='https://github.com/RTimothyEdwards/magic'
 
-LABEL description 'Magic VLSI layout'
+LABEL description 'Magic VLSI layout tool (development/build)'
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -42,6 +42,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS magic-app
 
 ARG INSTALL_PATH
+
+LABEL description 'Magic VLSI layout tool (application/runtime)'
 
 # Copy installation files from dev image.
 COPY --from=magic-dev ${INSTALL_PATH} ${INSTALL_PATH}

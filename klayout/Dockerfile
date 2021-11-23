@@ -9,7 +9,7 @@ ARG INSTALL_PATH
 ARG SOURCE_PATH='/usr/src/klayout'
 ARG SOURCE_REPO='https://github.com/klayout/klayout'
 
-LABEL description "Klayout GDSII viewer and editor"
+LABEL description "Klayout GDSII viewer and editor (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
 RUN apt update -qq \
@@ -38,6 +38,8 @@ RUN cd ${SOURCE_PATH} \
 FROM ${BASE_IMAGE}:${BASE_TAG} AS klayout-app
 
 ARG INSTALL_PATH
+
+LABEL description "Klayout GDSII viewer and editor (application/runtime)"
 
 # Copy installation files from dev image.
 COPY --from=klayout-dev ${INSTALL_PATH} ${INSTALL_PATH}
