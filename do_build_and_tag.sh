@@ -11,7 +11,7 @@ source ./dockerutils.sh
 
 # Build images locally
 cd ${root_dir}/andrsmllr-base && docker_build andrsmllr-base andrsmllr/base
-cd ${root_dir}/ghdl && docker_build bluespec-compiler-app andrsmllr/bluespec-compiler
+cd ${root_dir}/bluespec-compiler && docker_build bluespec-compiler-app andrsmllr/bluespec-compiler
 cd ${root_dir}/ghdl && docker_build ghdl-app andrsmllr/ghdl
 cd ${root_dir}/gtkwave && docker_build gtkwave-app andrsmllr/gtkwave
 cd ${root_dir}/iverilog && docker_build iverilog-app andrsmllr/iverilog
@@ -29,6 +29,7 @@ docker_push_tag andrsmllr/ghdl latest
 docker_push_tag andrsmllr/gtkwave latest
 docker_push_tag andrsmllr/iverilog latest
 docker_push_tag andrsmllr/klayout latest
+docker_push_tag andrsmllr/magic latest
 docker_push_tag andrsmllr/symbiyosys latest
 docker_push_tag andrsmllr/verilator latest
 docker_push_tag andrsmllr/xschem latest
