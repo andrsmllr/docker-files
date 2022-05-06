@@ -12,17 +12,17 @@ function docker_build()
     DOCKER_BUILD_TARGET=${1}
     DOCKER_IMAGE=${2}
     DOCKER_TAG=${3:-"latest"}
-    BUILD_VERSION=${4:-"HEAD"}
-    DOCKER_BUILD_CONTEXT=${5:-$(pwd)}
+    DOCKER_BUILD_CONTEXT=${4:-$(pwd)}
+    DOCKER_BUILD_ARGS=${5}
 
     # Build docker image and create local tag.
-    DOCKER_BUILDKIT=1 docker build \
+    #DOCKER_BUILDKIT=1 docker build \
+    docker buildx build \
         --target ${DOCKER_BUILD_TARGET} \
-        --build-arg BUILD_VERSION=${BUILD_VERSION} \
         --compress \
-        --no-cache \
         -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
-        ${DOCKER_BUILD_CONTEXT}
+        ${DOCKER_BUILD_CONTEXT} \
+        ${DOCKER_BUILD_ARGS}
 }
 
 # ------------------------------------------------------------------------------
