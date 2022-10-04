@@ -34,7 +34,7 @@ RUN apt update -qq \
     tk-dev
 # No need to clean-up here since build results are copied to a clean image
 
-RUN git clone ${SOURCE_REPO} ${SOURCE_PATH}
+RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 
 RUN cd ${SOURCE_PATH}/gtkwave3-gtk3 \
     && mkdir -p ${INSTALL_PATH} \

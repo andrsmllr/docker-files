@@ -48,7 +48,7 @@ RUN apt update -qq \
 
 # SymbiYosys, needs patch to allow non-default install path (prefix)
 # See https://yosyshq.readthedocs.io/projects/sby/en/latest/install.html
-RUN git clone --recursive  ${SOURCE_REPO} ${SOURCE_PATH}
+RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 COPY ./symbiyosys.patch ${SOURCE_PATH}/symbiyosys.patch
 WORKDIR ${SOURCE_PATH}
 RUN git apply ./symbiyosys.patch \
@@ -58,7 +58,7 @@ RUN git apply ./symbiyosys.patch \
 # Yices2
 ENV YICES2_SOURCE_PATH /usr/src/yices2
 ENV YICES2_INSTALL_PATH ${INSTALL_PATH}/solvers/yices2
-RUN git clone --recursive  https://github.com/SRI-CSL/yices2 ${YICES2_SOURCE_PATH}
+RUN git clone --recursive --depth 1 https://github.com/SRI-CSL/yices2 ${YICES2_SOURCE_PATH}
 WORKDIR ${YICES2_SOURCE_PATH}
 RUN autoconf \
     && ./configure --prefix=${YICES2_INSTALL_PATH} \
@@ -69,7 +69,7 @@ RUN autoconf \
 # Z3
 ENV Z3_SOURCE_PATH /usr/src/z3
 ENV Z3_INSTALL_PATH ${INSTALL_PATH}/solvers/z3
-RUN git clone --recursive https://github.com/Z3Prover/z3 ${Z3_SOURCE_PATH}
+RUN git clone --recursive --depth 1 https://github.com/Z3Prover/z3 ${Z3_SOURCE_PATH}
 WORKDIR ${Z3_SOURCE_PATH}
 RUN mkdir -p ${Z3_INSTALL_PATH} \
     && ./configure --prefix=${Z3_INSTALL_PATH} \
@@ -80,7 +80,7 @@ RUN mkdir -p ${Z3_INSTALL_PATH} \
 # SuperProve
 ENV SUPERPROVE_SOURCE_PATH /usr/src/super_prove
 ENV SUPERPROVE_INSTALL_PATH ${INSTALL_PATH}/solvers
-RUN git clone --recursive https://github.com/sterin/super-prove-build ${SUPERPROVE_SOURCE_PATH}
+RUN git clone --recursive --depth 1 https://github.com/sterin/super-prove-build ${SUPERPROVE_SOURCE_PATH}
 WORKDIR ${SUPERPROVE_SOURCE_PATH}
 RUN mkdir build \
     && cd build \
@@ -99,7 +99,7 @@ RUN chmod +x ${SUPERPROVE_WRAPPER}
 # Avy, needs patch to fix issue with boost
 ENV AVY_SOURCE_PATH /usr/src/avy
 ENV AVY_INSTALL_PATH ${INSTALL_PATH}/solvers/avy
-RUN git clone --recursive https://bitbucket.org/arieg/extavy ${AVY_SOURCE_PATH}
+RUN git clone --recursive --depth 1 https://bitbucket.org/arieg/extavy ${AVY_SOURCE_PATH}
 COPY ./avy.patch ${AVY_SOURCE_PATH}/avy/avy.patch
 RUN cd ${AVY_SOURCE_PATH}/avy && git apply ./avy.patch
 WORKDIR ${AVY_SOURCE_PATH}
@@ -116,7 +116,7 @@ RUN mkdir -p ${AVY_SOURCE_PATH}/build \
 # Open issue https://github.com/YosysHQ/SymbiYosys/issues/112
 ENV BTOR_SOURCE_PATH /usr/src/boolector
 ENV BTOR_INSTALL_PATH ${INSTALL_PATH}/solvers/boolector
-RUN git clone --recursive https://github.com/boolector/boolector ${BTOR_SOURCE_PATH}
+RUN git clone --recursive --depth 1 https://github.com/boolector/boolector ${BTOR_SOURCE_PATH}
 WORKDIR ${BTOR_SOURCE_PATH}
 RUN ./contrib/setup-btor2tools.sh \
     && ./contrib/setup-lingeling.sh \

@@ -41,7 +41,7 @@ RUN apt update -qq \
 COPY ./with_systemc.sh /tmp/with_systemc.sh
 RUN if [[ $WITH_SYSTEMC == 1 ]]; then source /tmp/with_systemc.sh; fi
 
-RUN git clone ${SOURCE_REPO} ${SOURCE_PATH}
+RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 
 # If SystemC sources are present, compile them
 RUN /tmp/with_systemc.sh

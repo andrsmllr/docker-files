@@ -17,12 +17,13 @@ cd ${root_dir}/bluespec-compiler && docker_build bluespec-compiler-app andrsmllr
 cd ${root_dir}/ghdl && docker_build ghdl-app andrsmllr/ghdl latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/gtkwave && docker_build gtkwave-app andrsmllr/gtkwave latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/iverilog && docker_build iverilog-app andrsmllr/iverilog latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/klayout && docker_build klayout-app andrsmllr/klayout latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/magic && docker_build magic-app andrsmllr/magic latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/symbiyosys && docker_build symbiyosys-app andrsmllr/symbiyosys latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/verilator && docker_build verilator-app andrsmllr/verilator latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/xschem && docker_build xschem-app andrsmllr/xschem latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 cd ${root_dir}/yosys && docker_build yosys-app andrsmllr/yosys latest ./context "${DOCKER_ADDITIONAL_ARGS}"
+# Do klayout last, because it takes very long.
+cd ${root_dir}/klayout && docker_build klayout-app andrsmllr/klayout latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 
 # Push tags
 docker_push_tag andrsmllr/base latest

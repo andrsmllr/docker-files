@@ -48,7 +48,7 @@ RUN apt update -qq \
 #    libghc-split-prof
 # No need to clean-up here since build results are copied to a clean image
 
-RUN git clone --recursive ${SOURCE_REPO} ${SOURCE_PATH}
+RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 
 # Running make release is equivalent to running
 # make install-src && make check-smoke && make install-doc

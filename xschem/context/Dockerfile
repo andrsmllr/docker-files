@@ -37,7 +37,7 @@ RUN apt update -qq \
     tk8.6-dev
 # No need to clean-up here since build results are copied to a clean image
 
-RUN git clone ${SOURCE_REPO} ${SOURCE_PATH}
+RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 
 RUN cd ${SOURCE_PATH} \
     && mkdir -p ${INSTALL_PATH} \
