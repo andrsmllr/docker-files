@@ -32,7 +32,7 @@ RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 RUN cd ${SOURCE_PATH} \
     && mkdir -p ${INSTALL_PATH} \
     && mkdir -p build \
-    && ./build.sh -build ./build -prefix ${INSTALL_PATH}
+    && ./build.sh -build ./build -prefix ${INSTALL_PATH} -option "-j $(nproc)"
 
 ################################################################################
 FROM ${BASE_IMAGE}:${BASE_TAG} AS klayout-app
