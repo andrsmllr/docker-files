@@ -9,31 +9,63 @@ set -e
 root_dir=$(pwd)
 source ./dockerutils.sh
 
+DO_BUILD=0
+DO_TAG=0
+DO_PUSH=1
+
+TAG="2023-02-11"
+
+IMAGES_TO_BUILD="
+    andrsmllr/bluespec-compiler \
+    andrsmllr/ghdl \
+    andrsmllr/gtkwave \
+    andrsmllr/iverilog \
+    andrsmllr/magic \
+    andrsmllr/symbiyosys \
+    andrsmllr/verilator \
+    andrsmllr/xschem \
+    andrsmllr/yosys \
+    andrsmllr/klayout"
+
+IMAGES_TO_TAG=${IMAGES_TO_BUILD}
+IMAGES_TO_PUSH=${IMAGES_TO_BUILD}
+
 DOCKER_ADDITIONAL_ARGS="--no-cache"
 
-# Build images locally
-cd ${root_dir}/andrsmllr-base && docker_build andrsmllr-base andrsmllr/base latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/bluespec-compiler && docker_build bluespec-compiler-app andrsmllr/bluespec-compiler latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/ghdl && docker_build ghdl-app andrsmllr/ghdl latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/gtkwave && docker_build gtkwave-app andrsmllr/gtkwave latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/iverilog && docker_build iverilog-app andrsmllr/iverilog latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/magic && docker_build magic-app andrsmllr/magic latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/symbiyosys && docker_build symbiyosys-app andrsmllr/symbiyosys latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/verilator && docker_build verilator-app andrsmllr/verilator latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/xschem && docker_build xschem-app andrsmllr/xschem latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-cd ${root_dir}/yosys && docker_build yosys-app andrsmllr/yosys latest ./context "${DOCKER_ADDITIONAL_ARGS}"
-# Do klayout last, because it takes very long.
-cd ${root_dir}/klayout && docker_build klayout-app andrsmllr/klayout latest ./context "${DOCKER_ADDITIONAL_ARGS}"
 
+# ------------------------------------------------------------------------------
+# Build images
+
+if [ "${DO_BUILD}" -eq "1" ]; then
+    # The base image is special and always gets build. Do not include it in IMAGES_TO_BUILD
+    cd ${root_dir}/andrsmllr-base && docker_build andrsmllr-base andrsmllr/base latest ./context "${DOCKER_ADDITIONAL_ARGS}"
+
+    # Build images locally and create new latest tag
+    for image in ${IMAGES_TO_BUILD}; do
+        cd ${root_dir}/${image} && docker_build ${image}-app ${image} latest ./context "${DOCKER_ADDITIONAL_ARGS}"
+    done
+fi
+
+# ------------------------------------------------------------------------------
+# Create tags
+
+if [ "${DO_TAG}" -eq "1" ]; then
+    docker_create_tag andrsmllr/base:latest andrsmllr/base:${TAG}
+
+    for image in ${IMAGES_TO_TAG}; do
+        docker_create_tag ${image}:latest ${image}:${TAG}
+    done
+fi
+
+# ------------------------------------------------------------------------------
 # Push tags
-docker_push_tag andrsmllr/base latest
-docker_push_tag andrsmllr/bluespec-compiler latest
-docker_push_tag andrsmllr/ghdl latest
-docker_push_tag andrsmllr/gtkwave latest
-docker_push_tag andrsmllr/iverilog latest
-docker_push_tag andrsmllr/klayout latest
-docker_push_tag andrsmllr/magic latest
-docker_push_tag andrsmllr/symbiyosys latest
-docker_push_tag andrsmllr/verilator latest
-docker_push_tag andrsmllr/xschem latest
-docker_push_tag andrsmllr/yosys latest
+
+if [ "${DO_PUSH}" -eq "1" ]; then
+    docker_push_tag andrsmllr/base ${TAG}
+    docker_push_tag andrsmllr/base latest
+
+    for image in ${IMAGES_TO_PUSH}; do
+        docker_push_tag ${image} ${TAG}
+        docker_push_tag ${image} latest
+    done
+fi

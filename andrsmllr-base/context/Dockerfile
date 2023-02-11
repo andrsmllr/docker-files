@@ -4,8 +4,8 @@ ARG BASE_TAG=20.04
 ################################################################################
 FROM ${BASE_IMAGE}:${BASE_TAG} AS andrsmllr-base
 
-LABEL maintainers 'andrsmllr <andreas.mueller2207@gmail.com>'
-LABEL description 'Common base image for other EDA images'
+LABEL maintainers 'andrsmllr <andrsmllr@bananatronics.org>'
+LABEL description 'Common base image for my other EDA images'
 
 # Add dumb-init and gosu to provide a clean entrypoint
 # https://github.com/Yelp/dumb-init

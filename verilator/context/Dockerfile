@@ -24,6 +24,7 @@ RUN apt update -qq \
     ccache \
     flex \
     g++ \
+    help2man \
     libfl-dev \
     libfl2 \
     libgoogle-perftools-dev \
