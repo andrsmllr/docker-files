@@ -9,6 +9,11 @@
 # ------------------------------------------------------------------------------
 function docker_build()
 {
+    if [ $# -lt 2 ]; then
+        echo "Not enough arguments"
+        return -1
+    fi
+
     DOCKER_BUILD_TARGET=${1}
     DOCKER_IMAGE=${2}
     DOCKER_TAG=${3:-"latest"}
@@ -23,27 +28,45 @@ function docker_build()
         -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
         ${DOCKER_BUILD_CONTEXT} \
         ${DOCKER_BUILD_ARGS}
+
+    return $?
 }
 
 
 # ------------------------------------------------------------------------------
 function docker_create_tag()
 {
-    DOCKER_IMAGE=${1}
-    DOCKER_TAG_A=${2:-"latest"}
-    DOCKER_TAG_B=${3:-"latest"}
+    if [ $# -lt 2 ]; then
+        echo "Not enough arguments"
+        return -1
+    fi
 
-    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG_A} ${DOCKER_IMAGE}:${DOCKER_TAG_B}
+    DOCKER_IMAGE=${1}
+    DOCKER_TAG_TO=${2}
+    DOCKER_TAG_FROM=${3:-"latest"}
+
+    echo "Creating new tag for ${DOCKER_IMAGE}: ${DOCKER_TAG_FROM} -> ${DOCKER_TAG_TO}"
+    docker tag ${DOCKER_IMAGE}:${DOCKER_TAG_FROM} ${DOCKER_IMAGE}:${DOCKER_TAG_TO}
+
+    return $?
 }
 
 
 # ------------------------------------------------------------------------------
 function docker_push_tag()
 {
+    if [ $# -lt 1 ]; then
+        echo "Not enough arguments"
+        return -1
+    fi
+
     DOCKER_IMAGE=${1}
     DOCKER_TAG=${2:-"latest"}
     DOCKER_REGISTRY=${3:-"docker.io"}
 
+    echo "Pushing tag ${DOCKER_IMAGE}:${DOCKER_TAG} to ${DOCKER_REGISTRY}"
     docker login ${DOCKER_REGISTRY}
     docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+
+    return $?
 }

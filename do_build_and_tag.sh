@@ -9,13 +9,13 @@ set -e
 root_dir=$(pwd)
 source ./dockerutils.sh
 
-DO_BUILD=0
-DO_TAG=0
+DO_BUILD=1
+DO_TAG=1
 DO_PUSH=1
 
 TAG="2023-02-11"
 
-IMAGES_TO_BUILD="
+IMAGES_TO_BUILD=" \
     andrsmllr/bluespec-compiler \
     andrsmllr/ghdl \
     andrsmllr/gtkwave \
@@ -26,6 +26,7 @@ IMAGES_TO_BUILD="
     andrsmllr/xschem \
     andrsmllr/yosys \
     andrsmllr/klayout"
+# klayout is last, because it takes longest to build
 
 IMAGES_TO_TAG=${IMAGES_TO_BUILD}
 IMAGES_TO_PUSH=${IMAGES_TO_BUILD}
@@ -50,10 +51,10 @@ fi
 # Create tags
 
 if [ "${DO_TAG}" -eq "1" ]; then
-    docker_create_tag andrsmllr/base:latest andrsmllr/base:${TAG}
+    docker_create_tag andrsmllr/base:${TAG} andrsmllr/base:latest
 
     for image in ${IMAGES_TO_TAG}; do
-        docker_create_tag ${image}:latest ${image}:${TAG}
+        docker_create_tag ${image}:${TAG} ${image}:latest
     done
 fi
 
