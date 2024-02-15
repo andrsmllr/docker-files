@@ -12,8 +12,9 @@ ARG SOURCE_REPO='https://github.com/steveicarus/iverilog'
 LABEL description 'Icarus Verilog simulator (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+RUN DEBIAN_FRONTEND=noninteractive  \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     autoconf \
     bison \
     ca-certificates \
@@ -53,10 +54,5 @@ RUN ln -s ${INSTALL_PATH}/bin/iverilog /usr/bin/iverilog
 #    && apt clean \
 #    && rm -rf /var/lib/apt/lists/*
 
-# Prepare entrypoint.sh, which installs a local user with same UID as the docker user.
-ENV TERM=xterm-256color
-WORKDIR /work
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh && set -eux
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "iverilog"]
+# Set default command.
+CMD [ "/usr/bin/bash", "-c", "iverilog" ]

@@ -14,8 +14,9 @@ ARG SOURCE_REPO='https://github.com/verilator/verilator'
 LABEL description "Verilator Verilog simulator (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+RUN DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     git \
     ca-certificates \
     autoconf \
@@ -35,8 +36,7 @@ RUN apt update -qq \
     python3 \
     wget \
     zlib1g \
-    zlib1g-dev \
-    zlibc
+    zlib1g-dev
 # No need to clean-up here since build results are copied to a clean image
 
 COPY ./with_systemc.sh /tmp/with_systemc.sh
@@ -79,11 +79,5 @@ RUN apt update -qq \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Prepare gosu, a tool used by entrypoint.sh to install a local user with same UID as the docker user.
-RUN set -eux; gosu nobody true
-ENV TERM=xterm-256color
-WORKDIR /work
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "verilator"]
+# Set default command.
+CMD [ "/usr/bin/bash", "-c", "verilator" ]

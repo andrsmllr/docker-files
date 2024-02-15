@@ -12,8 +12,9 @@ ARG SOURCE_REPO='https://github.com/RTimothyEdwards/magic'
 LABEL description 'Magic VLSI layout tool (development/build)'
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+RUN DEBIAN_FRONTEND=noninteractive\
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     git \
     ca-certificates \
     bison \
@@ -61,10 +62,5 @@ RUN apt update -qq \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Prepare entrypoint.sh, which installs a local user with same UID as the docker user.
-ENV TERM=xterm-256color
-WORKDIR /work
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh && set -eux
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "magic"]
+# Set default command.
+CMD [ "/usr/bin/bash", "-c", "magic" ]

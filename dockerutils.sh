@@ -25,7 +25,8 @@ function docker_build()
     DOCKER_BUILDKIT=1 docker build \
         --target ${DOCKER_BUILD_TARGET} \
         --compress \
-        -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
+        --no-cache \
+        --tag ${DOCKER_IMAGE}:${DOCKER_TAG} \
         ${DOCKER_BUILD_CONTEXT} \
         ${DOCKER_BUILD_ARGS}
 

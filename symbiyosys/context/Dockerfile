@@ -12,7 +12,7 @@ ARG SOURCE_REPO='https://github.com/yosyshq/symbiyosys'
 LABEL description "SymbiYosys open source formal verification suite (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN apt update -qq \
+RUN apt-get update -qq \
     && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
     autoconf \
     bison \
