@@ -6,6 +6,18 @@
 # exist in the Dockerfile.
 # ------------------------------------------------------------------------------
 
+DOCKER_RUN_ARGS_ENABLE_DISPLAY="-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+  -v ${HOME}/.Xauthority:/tmp/.Xauthority:ro \
+  -e XAUTHORITY=/tmp/.Xauthority \
+  -e DISPLAY=${DISPLAY}"
+
+DOCKER_RUN_ARGS_FOR_ENTRYPOINT="-e LOCAL_USER_ID=${USER_ID}"
+
+DOCKER_RUN_ARGS_FOR_INTERACTIVE_SESSION="--tty --interactive"
+
+DOCKER_RUN_ARGS_MOUNT_CURRENT_WORKDIR="-v $(pwd):/$(pwd) \
+  -w $(pwd)"
+
 # ------------------------------------------------------------------------------
 function docker_build()
 {
@@ -25,7 +37,6 @@ function docker_build()
     DOCKER_BUILDKIT=1 docker build \
         --target ${DOCKER_BUILD_TARGET} \
         --compress \
-        --no-cache \
         --tag ${DOCKER_IMAGE}:${DOCKER_TAG} \
         ${DOCKER_BUILD_CONTEXT} \
         ${DOCKER_BUILD_ARGS}

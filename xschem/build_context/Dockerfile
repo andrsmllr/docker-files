@@ -12,7 +12,7 @@ ARG SOURCE_REPO='https://github.com/StefanSchippers/xschem'
 LABEL description "Xschem schematic editor (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -qq \
     && apt-get install --no-install-recommends -qq -y \
     git \
@@ -58,8 +58,9 @@ COPY --from=xschem-dev ${INSTALL_PATH} ${INSTALL_PATH}
 RUN ln -s ${INSTALL_PATH}/bin/xschem /usr/bin/xschem
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     libcairo2 \
     libx11-6 \
     libx11-xcb-dev \

@@ -16,6 +16,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
         # https://github.com/tianon/gosu
         dumb-init \
         gosu \
+        # Many commands complain if there are no system locales
+        # thus add locales package to define some defaults.
+        locales \
         # Add a compact text editor
         nano \
     && apt-get clean \
@@ -26,8 +29,11 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 # Set up time zone, language and locales.
 ENV TZ=Europe/Berlin
 ENV LANG=en_US.UTF-8
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone \
-    /usr/sbin/locale-gen ${LANG}
+ENV LANGUAGE=en_US
+ENV LC_ALL=en_US.UTF-8
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone \
+    && /usr/sbin/locale-gen ${LANG}
 
 
 # Set up default terminal and default work directory.

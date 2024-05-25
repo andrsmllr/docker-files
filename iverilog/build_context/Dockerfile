@@ -12,7 +12,7 @@ ARG SOURCE_REPO='https://github.com/steveicarus/iverilog'
 LABEL description 'Icarus Verilog simulator (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
-RUN DEBIAN_FRONTEND=noninteractive  \
+RUN export DEBIAN_FRONTEND=noninteractive  \
     && apt-get update -qq \
     && apt-get install --no-install-recommends -qq -y \
     autoconf \

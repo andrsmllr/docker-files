@@ -3,7 +3,7 @@
 DOCKER_BUILD_TARGET="andrsmllr-base"
 DOCKER_IMAGE="andrsmllr/base"
 DOCKER_TAG="latest"
-DOCKER_BUILD_CONTEXT="./context"
+DOCKER_BUILD_CONTEXT="./build_context"
 
 source ../dockerutils.sh
 

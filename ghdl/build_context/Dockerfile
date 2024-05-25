@@ -47,8 +47,9 @@ COPY --from=ghdl-dev ${INSTALL_PATH} ${INSTALL_PATH}
 RUN ln -s ${INSTALL_PATH}/bin/ghdl /usr/bin/ghdl
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     gnat \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*

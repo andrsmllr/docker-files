@@ -12,7 +12,7 @@ ARG SOURCE_REPO='https://github.com/gtkwave/gtkwave'
 LABEL description 'GTKWave waveform viewer (development/build)'
 
 # git and ca-certificates is needed to clone from https://github.com
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -qq \
     && apt-get install --no-install-recommends -qq -y \
     git \
@@ -33,14 +33,12 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libgtk-3-dev \
     libgtk-4-bin \
     ninja-build \
+    python3-mesonpy \
     python3-pip \
     tcl \
     tk \
     tk-dev
 # No need to clean-up here since build results are copied to a clean image
-
-# Install meson from pip, because ppa package is out-of-date
-RUN pip3 install meson
 
 RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 
@@ -48,6 +46,7 @@ RUN cd ${SOURCE_PATH} \
     && mkdir -p ${INSTALL_PATH} \
     && meson setup build \
     && cd build \
+    && meson compile \
     && meson install --destdir ${INSTALL_PATH}
 
 ################################################################################
@@ -58,13 +57,16 @@ ARG INSTALL_PATH
 LABEL description 'GTKWave waveform viewer (application/runtime)'
 
 # Copy installation files from dev image.
-COPY --from=gtkwave-dev ${INSTALL_PATH}/usr/local/share/gtkwave3 ${INSTALL_PATH}
+COPY --from=gtkwave-dev ${INSTALL_PATH}/usr/local/* ${INSTALL_PATH}
 RUN ln -s ${INSTALL_PATH}/bin/gtkwave /usr/bin/gtkwave
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
+    libgirepository1.0 \
     libgtk-3-0 \
+    libgtk-3-dev \
     tcl \
     tk \
     && apt clean \

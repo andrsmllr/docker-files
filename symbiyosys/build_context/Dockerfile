@@ -12,8 +12,9 @@ ARG SOURCE_REPO='https://github.com/yosyshq/symbiyosys'
 LABEL description "SymbiYosys open source formal verification suite (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN apt-get update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt install --no-install-recommends -qq -y \
     autoconf \
     bison \
     build-essential \
@@ -140,8 +141,9 @@ RUN ln -s ${INSTALL_PATH}/bin/sby /usr/bin/sby \
     && export PATH=$PATH:${INSTALL_PATH}/solvers/yices2/bin:${INSTALL_PATH}/solvers/z3/bin:${INSTALL_PATH}/solvers/super_prove/bin:${INSTALL_PATH}/solvers/avy/bin:${INSTALL_PATH}/solvers/boolector/bin
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     iverilog \
     python3 \
     tcl \

@@ -12,7 +12,7 @@ ARG SOURCE_REPO='https://github.com/klayout/klayout'
 LABEL description "Klayout GDSII viewer and editor (development/build)"
 
 # Add ca-certificates and git to access sources from https://github.com
-RUN DEBIAN_FRONTEND=noninteractive \
+RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -qq \
     && apt-get install --no-install-recommends -qq -y \
     git \
@@ -47,8 +47,9 @@ COPY --from=klayout-dev ${INSTALL_PATH} ${INSTALL_PATH}
 RUN ln -s ${INSTALL_PATH}/klayout /usr/bin/klayout
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     libqt5svg5-dev \
     libqt5xmlpatterns5-dev \
     python3 \

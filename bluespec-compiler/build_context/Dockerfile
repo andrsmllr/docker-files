@@ -14,8 +14,9 @@ LABEL description 'BlueSpec compiler (BSC) (development/build)'
 # Install build dependencies.
 # git and ca-certificates is needed to clone from https://github.com
 # The texlive packages and asciidoctor are needed to build the BlueSpec documentation.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -qq -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     autoconf \
     bison \
     build-essential \
@@ -32,9 +33,10 @@ RUN apt update -qq \
     make \
     perl \
     pkg-config \
-    tcl-dev
+    tcl-dev \
 # The libs below are needed to build bsc documentation.
-#    asciidoctor \
+    asciidoctor \
+    ruby-asciidoctor-pdf
 #    texlive-latex-base \
 #    texlive-latex-recommended \
 #    texlive-latex-extra \
@@ -54,8 +56,8 @@ RUN git clone --recursive --depth 1 ${SOURCE_REPO} ${SOURCE_PATH}
 # make install-src && make check-smoke && make install-doc
 RUN cd ${SOURCE_PATH} \
     && mkdir -p ${INSTALL_PATH} \
-    && export PATH=$PATH:${INSTALL_PATH}/bin \
-    && make -j$(nproc) GHCJOBS=$(nproc) PREFIX=${INSTALL_PATH} install-src
+    && make -j$(($(nproc)/2)) GHCJOBS=$(($(nproc)/2)) PREFIX=${INSTALL_PATH} install install-release \
+    && cp -r ./inst/ ${INSTALL_PATH}
 
 ################################################################################
 FROM ${BASE_IMAGE}:${BASE_TAG} AS bluespec-compiler-app
@@ -69,16 +71,12 @@ COPY --from=bluespec-compiler-dev ${INSTALL_PATH} ${INSTALL_PATH}
 ENV PATH ${PATH}:${INSTALL_PATH}/bin
 
 # Install runtime dependencies.
-RUN apt update -qq \
-    && DEBIAN_FRONTEND=noninteractive apt install --no-install-recommends -q -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -qq \
+    && apt-get install --no-install-recommends -qq -y \
     libatomic1 \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Prepare entrypoint.sh, which installs a local user with same UID as the docker user.
-ENV TERM=xterm-256color
-WORKDIR /work
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh && set -eux
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash", "-c", "bsc"]
+# Set default command.
+CMD [ "/bin/bash", "-c", "bsc" ]
