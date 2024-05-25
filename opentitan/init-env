@@ -1,0 +1,7 @@
+# This file must be sourced inside andrsmllr/opentitan-env container.
+
+source /opt/venv/bin/activate
+export REPO_TOP=/opt/opentitan
+
+# Run smoke test. Downloads lots of files.
+#$REPO_TOP/bazelisk.sh test --test_output=streamed --disk_cache=~/bazel_cache //sw/device/tests:uart_smoketest_sim_verilator
