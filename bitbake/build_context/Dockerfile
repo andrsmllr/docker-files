@@ -1,5 +1,6 @@
+# syntax=docker/dockerfile:1
 ARG BASE_IMAGE=andrsmllr/base
-ARG BASE_TAG=latest
+ARG BASE_TAG=ubuntu-22.04
 
 ################################################################################
 FROM ${BASE_IMAGE}:${BASE_TAG} AS bitbake-env
@@ -38,3 +39,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+
+FROM bitbake-env as bitbake-app

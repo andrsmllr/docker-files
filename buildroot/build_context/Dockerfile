@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG BASE_IMAGE=andrsmllr/base
 ARG BASE_TAG=latest
 
@@ -69,3 +70,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+
+FROM buildroot-env as buildroot-app

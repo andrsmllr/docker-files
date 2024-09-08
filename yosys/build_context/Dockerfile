@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG BASE_IMAGE=andrsmllr/base
 ARG BASE_TAG=latest
 ARG INSTALL_PATH='/opt/yosys'
