@@ -18,11 +18,13 @@ TAG="2024-04-17"
 IMAGE_PREFIX="andrsmllr/"
 
 IMAGES_TO_BUILD=" \
+    bitbake \
     buildroot \
     ghdl \
     gtkwave \
     iverilog \
     magic \
+    opentitan \
     verilator \
     xschem \
     yosys \
