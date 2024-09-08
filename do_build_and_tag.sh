@@ -9,11 +9,11 @@ set -e
 root_dir=$(pwd)
 source ./dockerutils.sh
 
-DO_BUILD=1
-DO_TAG=1
-DO_PUSH=1
+DO_BUILD=0
+DO_TAG=0
+DO_PUSH=0
 
-TAG="2024-04-17"
+TAG="2024-09-08"
 
 IMAGE_PREFIX="andrsmllr/"
 
@@ -36,12 +36,13 @@ IMAGES_TO_BUILD=" \
 IMAGES_TO_TAG=${IMAGES_TO_BUILD}
 IMAGES_TO_PUSH=${IMAGES_TO_BUILD}
 
-DOCKER_ADDITIONAL_ARGS="--build-arg BASE_IMAGE=ubuntu --build-arg BASE_TAG=23.10"
+DOCKER_ADDITIONAL_ARGS="--build-arg BASE_IMAGE=ubuntu --build-arg BASE_TAG=22.04"
 
 
 # The base image is special and always gets build. Do not include it in IMAGES_TO_BUILD
 cd ${root_dir}/andrsmllr-base && docker_build andrsmllr-base andrsmllr/base latest ./build_context "${DOCKER_ADDITIONAL_ARGS}"
 docker_create_tag andrsmllr/base ${TAG} latest
+docker_create_tag andrsmllr/base ${TAG} ubuntu-22.04
 
 
 # ------------------------------------------------------------------------------
