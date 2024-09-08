@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DOCKER_BUILD_TARGET="buildroot-app"
-DOCKER_IMAGE="andrsmllr/buildroot-app"
+DOCKER_BUILD_TARGET="buildroot-env"
+DOCKER_IMAGE="andrsmllr/buildroot-env"
 DOCKER_TAG="latest"
 DOCKER_BUILD_CONTEXT="./build_context"
 

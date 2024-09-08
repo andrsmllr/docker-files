@@ -2,7 +2,7 @@ ARG BASE_IMAGE=andrsmllr/base
 ARG BASE_TAG=latest
 
 ################################################################################
-FROM ${BASE_IMAGE}:${BASE_TAG} AS buildroot-app
+FROM ${BASE_IMAGE}:${BASE_TAG} AS buildroot-env
 
 LABEL description 'Buildroot build environment'
 
