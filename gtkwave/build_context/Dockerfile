@@ -32,7 +32,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     liblzma-dev \
     libgirepository1.0-dev \
     libgtk-3-dev \
-    libgtk-4-bin \
+    libgtk-4-dev \
     ninja-build \
     python3-mesonpy \
     python3-pip \
