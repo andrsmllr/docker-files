@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG BASE_IMAGE=ubuntu
 ARG BASE_TAG=20.04
 
