@@ -112,3 +112,6 @@ CMD [ "/usr/bin/bash" ]
 
 # Set up a simple default healthcheck.
 HEALTHCHECK --interval=30s --retries=2 --start-interval=5s --start-period=5s --timeout=10s CMD [ "/bin/true" ]
+
+
+FROM opentitan-env as opentitan-app
